@@ -11,13 +11,16 @@ namespace Employees.Web.Test
 {
     public class EmployeesControlerTest
     {
-        private readonly Mock<ICSVService> _mockRepo;
+        private readonly Mock<ICSVService> _mockCsvService;
+        private readonly Mock<IEmployeeService> _mockEmployeeService;
         private readonly EmployeesController _controller;
 
         public EmployeesControlerTest()
         {
-            _mockRepo = new Mock<ICSVService>();
-            _controller = new EmployeesController(_mockRepo.Object);
+            _mockCsvService = new Mock<ICSVService>();
+            _mockEmployeeService = new Mock<IEmployeeService>();
+
+            _controller = new EmployeesController(_mockCsvService.Object, _mockEmployeeService.Object);
         }
 
         /// <summary>

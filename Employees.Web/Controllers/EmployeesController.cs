@@ -10,10 +10,12 @@ namespace Employees.Web.Controllers
     public class EmployeesController : Controller
     {
         private readonly ICSVService _csvService;
+        private readonly IEmployeeService _employeeService;
 
-        public EmployeesController(ICSVService csvService)
+        public EmployeesController(ICSVService csvService, IEmployeeService employeeService)
         {
             _csvService = csvService;
+            _employeeService = employeeService;
         }
 
         public IActionResult Upload()
@@ -29,7 +31,7 @@ namespace Employees.Web.Controllers
 
             if(form.File == null || form.File.Length == 0)
             {
-                form.Errors.Add($"The file is nul or empty");
+                form.Errors.Add($"The file is null or empty");
                 return View(form);
             }
 
@@ -49,13 +51,13 @@ namespace Employees.Web.Controllers
 
                 if(employees.Count == 0)
                 {
-                    form.Errors.Add($"There is no records inthe file");
+                    form.Errors.Add($"There are no records in the file");
                     return View(form);
                 }
 
-                Dictionary<Tuple<int, int>, List<Tuple<int, int>>> pairsDic = _csvService.GetAllEmployeePairs(employees);
+                Dictionary<Tuple<int, int>, List<Tuple<int, int>>> pairsDic = _employeeService.GetAllEmployeePairs(employees);
 
-                form.MaxEmployeePairs = _csvService.GetLongestPeriodPair(pairsDic);
+                form.MaxEmployeePairs = _employeeService.GetLongestPeriodPair(pairsDic);
 
                 if (form.MaxEmployeePairs.Count == 0)
                     form.Errors.Add("There are no employees who have worked together on common projects");
