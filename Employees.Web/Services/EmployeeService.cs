@@ -68,11 +68,14 @@ namespace Employees.Web.Services
         /// </summary>
         /// <param name="pairsDic"></param>
         /// <returns></returns>
-        public Dictionary<Tuple<int, int>, List<Tuple<int, int>>> GetLongestPeriodPair(Dictionary<Tuple<int, int>, List<Tuple<int, int>>> pairsDic)
+        public List<KeyValuePair<Tuple<int, int>, List<Tuple<int, int>>>> GetLongestPeriodPair(Dictionary<Tuple<int, int>, List<Tuple<int, int>>> pairsDic)
         {
             int longestPeriodDays = 0;
-            KeyValuePair<Tuple<int, int>, List<Tuple<int, int>>> maxPair = default;
             Dictionary<Tuple<int, int>, List<Tuple<int, int>>> maxPairs = new Dictionary<Tuple<int, int>, List<Tuple<int, int>>>();
+
+            Dictionary<int, List<KeyValuePair<Tuple<int, int>, List<Tuple<int, int>>>>> tempPairs =
+                new Dictionary<int, List<KeyValuePair<Tuple<int, int>, List<Tuple<int, int>>>>>();
+
 
             foreach (var pair in pairsDic)
             {
@@ -84,17 +87,31 @@ namespace Employees.Web.Services
                     tempMaxDays += project.Item2;
 
                     if (tempMaxDays > longestPeriodDays)
-                    {
                         longestPeriodDays = tempMaxDays;
-                        maxPair = pair;
-                    }
 
                     if (tempMaxDays == longestPeriodDays)
-                        maxPairs[pair.Key] = projects;
+                    {
+                        if (tempPairs.ContainsKey(tempMaxDays))
+                        {
+                            tempPairs[tempMaxDays].Add(pair);
+                        }
+                        else
+                        {
+                            tempPairs[tempMaxDays] = new List<KeyValuePair<Tuple<int, int>, List<Tuple<int, int>>>>()
+                            {
+                                pair
+                            };
+                        }
+                    }
                 }
             }
 
-            return maxPairs;
+           
+            var allKeys = tempPairs.Keys.ToList();
+            var maxKey = allKeys.Max();
+            var pairs = tempPairs[maxKey];
+
+            return pairs;
         }
 
         /// <summary>

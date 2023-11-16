@@ -13,7 +13,7 @@ namespace Employees.Web.ViewModels
         /// Pairs of employees who have worked together on common projects
         /// May be more than 1 pair
         /// </summary>  
-        public Dictionary<Tuple<int, int>, List<Tuple<int, int>>> MaxEmployeePairs = new Dictionary<Tuple<int, int>, List<Tuple<int, int>>>();
+        public List<KeyValuePair<Tuple<int, int>, List<Tuple<int, int>>>> MaxEmployeePairs = new List<KeyValuePair<Tuple<int, int>, List<Tuple<int, int>>>>();
 
         public List<string> Errors { get; set; } = new List<string>();
     }

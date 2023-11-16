@@ -18,6 +18,6 @@ namespace Employees.Web.Services.Interfaces
         /// </summary>
         /// <param name="pairsDic"></param>
         /// <returns></returns>
-        public Dictionary<Tuple<int, int>, List<Tuple<int, int>>> GetLongestPeriodPair(Dictionary<Tuple<int, int>, List<Tuple<int, int>>> pairsDic);
+        public List<KeyValuePair<Tuple<int, int>, List<Tuple<int, int>>>> GetLongestPeriodPair(Dictionary<Tuple<int, int>, List<Tuple<int, int>>> pairsDic);
     }
 }
